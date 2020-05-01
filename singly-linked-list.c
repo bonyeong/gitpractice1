@@ -209,7 +209,7 @@ int deleteFirst(headNode* h) {
 	listNode* node;
 	node = h->first;	//헤드 저장
 
-	node = node->link;	//헤드에 node의 다음 값을 가게 한다
+	h->first = node->link;	//헤드에 node의 다음 값을 가게 한다
 
 	free(node);	//node 동적할당 해제
 
@@ -235,21 +235,21 @@ int deleteNode(headNode* h, int key) {
 		{
 			if (node->key == key)	//node의 key 값이 key와 같으면
 			{
-				prev = node;	//prev에 node를 미리 저장
-				node = node->link;	//node에 node가 가리키는 걸 가져오게한다
+				prev->link = node->link;	//prev가 가리키는 것을 node가 가리키는 것으로 바꿔줌
+
+				free(node);	//node 동적할당 해제
+				return 0;
 			}
 			else
 			{
-				printf("찾을 수 없음 \n");
-				return 0;
+				prev = node;	//prev에 node를 미리 저장
+				node = node->link;	//node에 node가 가리키는 걸 가져오게한다
 			}
 		}
-		prev->link = node->link;	//prev가 가리키는 것을 node가 가리키는 것으로 바꿔줌
-
-		free(node);	//node 동적할당 해제
+		printf("찾을 수 없음\n");
 	}
-
 	return 0;
+
 }
 
 /**
