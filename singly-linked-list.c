@@ -1,16 +1,7 @@
-/*
- * single linked list
- *
- *  Data Structures
- *  Department of Computer Science
- *  at Chungbuk National University
- */
-
-
 #include<stdio.h>
 #include<stdlib.h>
 
- /* 필요한 헤더파일 추가 */
+/* 필요한 헤더파일 추가 */
 
 typedef struct Node {
 	int key;
@@ -157,7 +148,7 @@ int insertFirst(headNode* h, int key) {
 int insertNode(headNode* h, int key) {
 
 	listNode* temp = (listNode*)malloc(sizeof(listNode));	//노드 임시 저장 위해 동적 할당
-	listNode* node, *prev = NULL;	//헤드 저장할 포인터1, 노드 이전값 저장할 포인터
+	listNode* node, *prev = NULL;	//헤드 저장할 포인터, 노드 이전값 저장할 포인터
 	temp->key = key;	//입력받은 key temp노드의 데이터에 저장
 	node = h->first;	// 헤드 저장
 
@@ -198,13 +189,13 @@ int insertLast(headNode* h, int key) {
 	temp->key = key;	//temp데이터 필드에 key 저장
 	node = h->first;	//node에 헤드 저장
 
-		while(node->link != NULL)	//node의 다음값이 NULL이 아닐 때까지 반복
-		{
-			node = node->link;	//node에 node의 다음을 넣어준다
-		}
+	while (node->link != NULL)	//node의 다음값이 NULL이 아닐 때까지 반복
+	{
+		node = node->link;	//node에 node의 다음을 넣어준다
+	}
 
-		temp->link = node->link;	//temp의 다음에 node의 다음 것(NULL)을 넣어준다.
-		node->link = temp;	//node의 다음에 temp를 넣어준다.
+	temp->link = node->link;	//temp의 다음에 node의 다음 것(NULL)을 넣어준다.
+	node->link = temp;	//node의 다음에 temp를 넣어준다.
 
 	return 0;
 }
@@ -218,7 +209,7 @@ int deleteFirst(headNode* h) {
 	listNode* node;
 	node = h->first;	//헤드 저장
 
-	h->first = node->link;	//헤드에 node의 다음 값을 가게 한다
+	node = node->link;	//헤드에 node의 다음 값을 가게 한다
 
 	free(node);	//node 동적할당 해제
 
@@ -231,7 +222,7 @@ int deleteFirst(headNode* h) {
  */
 int deleteNode(headNode* h, int key) {
 
-	listNode* node , *prev = 0;	//헤드저장, 노드 이전 값 저장
+	listNode* node, *prev = 0;	//헤드저장, 노드 이전 값 저장
 	node = h->first;	//node에 헤드 저장
 
 	if (node->key == key)	//node의 데이터 값이 key와 같으면
@@ -240,15 +231,24 @@ int deleteNode(headNode* h, int key) {
 	}
 	else
 	{
-		while (node->key != key)	//node의 데이터 값이 key와 같지 않는 동안 반복
+		while (node != NULL)	//node가 NULL이 아닌 동안 반복
 		{
-			prev = node;	//prev에 node를 미리 저장
-			node = node->link;	//node에 node가 가리키는 걸 가져오게한다
+			if (node->key == key)	//node의 key 값이 key와 같으면
+			{
+				prev = node;	//prev에 node를 미리 저장
+				node = node->link;	//node에 node가 가리키는 걸 가져오게한다
+			}
+			else
+			{
+				printf("찾을 수 없음 \n");
+				return 0;
+			}
 		}
 		prev->link = node->link;	//prev가 가리키는 것을 node가 가리키는 것으로 바꿔줌
 
 		free(node);	//node 동적할당 해제
 	}
+
 	return 0;
 }
 
@@ -318,4 +318,3 @@ void printList(headNode* h) {
 
 	printf("  items = %d\n", i);
 }
-
