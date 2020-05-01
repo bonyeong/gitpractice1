@@ -145,34 +145,45 @@ int insertFirst(headNode* h, int key) {
 
 
 /* 리스트를 검색하여, 입력받은 key보다 큰값이 나오는 노드 바로 앞에 삽입 */
+/* 리스트를 검색하여, 입력받은 key보다 큰값이 나오는 노드 바로 앞에 삽입 */
 int insertNode(headNode* h, int key) {
 
-	listNode* temp = (listNode*)malloc(sizeof(listNode));	//노드 임시 저장 위해 동적 할당
-	listNode* node, *prev = NULL;	//헤드 저장할 포인터, 노드 이전값 저장할 포인터
-	temp->key = key;	//입력받은 key temp노드의 데이터에 저장
-	node = h->first;	// 헤드 저장
+	listNode* temp = (listNode*)malloc(sizeof(listNode));   //노드 임시 저장 위해 동적 할당
+	listNode* node, *prev = NULL;   //헤드 저장할 포인터, 노드 이전값 저장할 포인터
+	temp->key = key;   //입력받은 key temp노드의 데이터에 저장
+	node = h->first;   // 헤드 저장
 
 
-	if (node == NULL)	//헤드가 NULL이면
+	if (node == NULL)   //헤드가 NULL이면
 	{
-		insertFirst(h, key);	//첫번째 노드에 저장
+		insertFirst(h, key);   //첫번째 노드에 저장
 	}
 	else
 	{
-		while (node != NULL)	//헤드가 NULL이 아니면
+		while (node != NULL)   //헤드가 NULL이 아니면
 		{
-			if (node < temp)	//node가 temp보다 작을 때
+			if (node->key < temp->key)   //node가 temp보다 작을 때
 			{
-				prev = node;	//이전 값에 node를 저장하고
-				node = node->link;	//node를 node가 가리키고 있는 다음 값을 가게 한다
+				prev = node;   //이전 값에 node를 저장하고
+				node = node->link;   //node를 node가 가리키고 있는 다음 값을 가게 한다
 			}
-			else
+			else if (node->key > temp->key)
+			{
+				temp->link = node;
+				if (prev != NULL) {//prev가 NULL이 아니면
+					prev->link = temp;
+				}
+				else {
+					h->first = temp;
+				}
 				break;
+
+			}
 		}
-		if (prev != NULL)	//prev가 NULL이 아니면
+		if (prev != NULL)   //prev가 NULL이 아니면
 		{
-			temp->link = node;	//temp의 다음에 node를 연결
-			prev->link = temp;	//prev의 다음에 temp를 연결
+			temp->link = node;   //temp의 다음에 node를 연결
+			prev->link = temp;   //prev의 다음에 temp를 연결
 		}
 	}
 
