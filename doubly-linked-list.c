@@ -124,8 +124,8 @@ int main()
 int initialize(headNode** h) {
 
 	if (*h != NULL)		//헤드 노드가 NULL이 아니면, freeList를 호출해 메모리를 해제
-		freeList(*h);
-
+		{freeList(*h);
+		}
 	//헤드노드에 대한 메모리를 할당한다.
 	headNode **temp = (headNode**)malloc(sizeof(headNode));
 
@@ -151,8 +151,6 @@ int freeList(headNode* h) {	//동적할당 해제
 		free(prev);
 	}
 
-	//마지막으로 헤드노드 해제
-	free(h);
 	return 0;
 }
 
@@ -358,7 +356,9 @@ int deleteNode(headNode* h, int key) {
 			prev = node;	//이전 노드에 노드값을 넣는다
 			node = node->rlink;	//노드에 노드의 다음 노드를 넣는다.
 		}
+
 	}
+	printf("error\n");
 	return 0;
 }
 
